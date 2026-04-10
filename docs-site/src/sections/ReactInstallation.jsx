@@ -8,7 +8,7 @@ export default function ReactInstallation() {
         <div id="react-step-1" className="scroll-mt-40 space-y-3">
           <h3 className="mt-5 text-base font-semibold text-slate-900">Step 1: Copy and add the script</h3>
           <p className="text-base text-slate-700">Copy this script and place it in the head of the index.html in your project.</p>
-          <img src="install.png" alt="Install the script" />
+          <img src="./install.png" alt="Install the script" />
         </div>
 
         <div id="react-step-2" className="scroll-mt-40 space-y-3">

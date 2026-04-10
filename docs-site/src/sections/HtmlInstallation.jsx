@@ -10,7 +10,7 @@ export default function HtmlInstallation() {
           <p className="text-base text-slate-700">
             Copy and add the script in your page head or a shared file like <code>common.js</code>.
           </p>
-          <img src="/install.png" alt="HTML Installation Step 1" className="w-full rounded-lg border border-slate-200" />
+          <img src="./install.png" alt="HTML Installation Step 1" className="w-full rounded-lg border border-slate-200" />
         </div>
 
         <div id="html-step-2" className="scroll-mt-40 space-y-3">
@@ -66,7 +66,7 @@ export default function HtmlInstallation() {
 });`}
           />
 
-          <img src="/identify.png" alt="HTML Installation Step 3" className="w-full rounded-lg border border-slate-200" />
+          <img src="./identify.png" alt="HTML Installation Step 3" className="w-full rounded-lg border border-slate-200" />
 
           <h4 className="text-base font-semibold text-slate-900">Distinct ID</h4>
           <p className="text-base text-slate-700">

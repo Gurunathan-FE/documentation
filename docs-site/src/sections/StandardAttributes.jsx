@@ -53,10 +53,10 @@ export default function StandardAttributes() {
       <p className="mb-4 text-base text-slate-600">
         Use standard profile fields and event names for consistent analytics and user journeys.
       </p>
-      <h3 id="standard-profile-fields" className="scroll-mt-40 mb-2 text-base font-semibold text-slate-900">Standard Profile Fields</h3>
-      <div id="standard-profile-fields" className="scroll-mt-40 mb-5 overflow-x-auto rounded-lg border border-slate-200">
+      <h3 id="standard-profile-fields" className="scroll-mt-40 mb-2 text-lg font-semibold text-slate-900">Standard Profile Fields</h3>
+      <div id="standard-profile-fields" className="scroll-mt-40 mb-5 overflow-x-auto border border-gray-200">
         <table className="min-w-full text-left text-base">
-          <thead className="bg-slate-100 text-slate-700">
+          <thead className="bg-orange-100 text-slate-700">
             <tr>
               <th className="px-4 py-3">Field</th>
               <th className="px-4 py-3">Description</th>
@@ -72,10 +72,10 @@ export default function StandardAttributes() {
           </tbody>
         </table>
       </div>
-      <h3 id="standard-events" className="scroll-mt-40 mb-2 text-base font-semibold text-slate-900">Standard Events</h3>
-      <div className="overflow-x-auto rounded-lg border border-slate-200">
+      <h3 id="standard-events" className="scroll-mt-40 mb-2 text-lg font-semibold text-slate-900">Standard Events</h3>
+      <div className="overflow-x-auto border border-gray-200">
         <table className="min-w-full text-left text-base">
-          <thead className="bg-slate-100 text-slate-700">
+          <thead className="bg-orange-100 text-slate-700">
             <tr>
               <th className="px-4 py-3">Event Name</th>
               <th className="px-4 py-3">Description</th>

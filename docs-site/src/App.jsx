@@ -3,6 +3,7 @@ import StandardAttributes from './sections/StandardAttributes'
 import HtmlInstallation from './sections/HtmlInstallation'
 import ReactInstallation from './sections/ReactInstallation'
 import AngularInstallation from './sections/AngularInstallation'
+import NextJsInstallation from './sections/NextJsInstallation'
 
 const navSections = [
   {
@@ -41,6 +42,16 @@ const navSections = [
       { id: 'angular-step-2', label: 'Create a service' },
       { id: 'angular-step-3', label: 'Create profile' },
       { id: 'angular-step-4', label: 'Track events' },
+    ],
+  },
+  {
+    id: 'nextjs-installation',
+    label: 'NextJs Installation',
+    children: [
+      { id: 'nextjs-step-1', label: 'Add the script' },
+      { id: 'nextjs-step-2', label: 'Create pixel.ts' },
+      { id: 'nextjs-step-3', label: 'Create profile' },
+      { id: 'nextjs-step-4', label: 'Track events' },
     ],
   },
 ]
@@ -222,6 +233,7 @@ export default function App() {
           <HtmlInstallation />
           <ReactInstallation />
           <AngularInstallation />
+          <NextJsInstallation />
         </main>
       </div>
     </div>

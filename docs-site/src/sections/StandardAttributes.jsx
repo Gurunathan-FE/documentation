@@ -47,45 +47,45 @@ const standardEvents = [
   ['order_fullfilled', 'Order is fulfilled and processed for delivery'],
 ]
 
-export default function StandardAttributes() {
+export default function StandardAttributes({ isDarkMode = false }) {
   return (
     <DocSection id="standard-attributes" title="Standard Attributes">
-      <p className="mb-4 text-base text-slate-600">
+      <p className={`mb-4 text-base ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
         Use standard profile fields and event names for consistent analytics and user journeys.
       </p>
-      <h3 id="standard-profile-fields" className="scroll-mt-40 mb-2 text-lg font-semibold text-slate-900">Standard Profile Fields</h3>
-      <div id="standard-profile-fields" className="scroll-mt-40 mb-5 overflow-x-auto border border-gray-200">
+      <h3 id="standard-profile-fields" className={`scroll-mt-40 mb-2 text-lg font-semibold ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>Standard Profile Fields</h3>
+      <div className={`scroll-mt-40 mb-8 overflow-x-auto border rounded-lg ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
         <table className="min-w-full text-left text-base">
-          <thead className="bg-orange-100 text-slate-700">
+          <thead className={`${isDarkMode ? 'bg-orange-600' : 'bg-orange-400'} text-white`}>
             <tr>
               <th className="px-4 py-3">Field</th>
               <th className="px-4 py-3">Description</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100 bg-white">
+          <tbody className={`divide-y ${isDarkMode ? 'divide-gray-800 bg-black' : 'divide-gray-200 bg-white'}`}>
             {profileFields.map(([field, description]) => (
               <tr key={field}>
-                <td className="px-4 py-3 text-slate-700">{field}</td>
-                <td className="px-4 py-3 text-slate-700">{description}</td>
+                <td className={`px-4 py-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{field}</td>
+                <td className={`px-4 py-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{description}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <h3 id="standard-events" className="scroll-mt-40 mb-2 text-lg font-semibold text-slate-900">Standard Events</h3>
-      <div className="overflow-x-auto border border-gray-200">
+      <h3 id="standard-events" className={`scroll-mt-40 mb-2 text-lg font-semibold ${isDarkMode ? 'text-gray-100' : 'text-black'}`}>Standard Events</h3>
+      <div className={`overflow-x-auto border rounded-lg ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
         <table className="min-w-full text-left text-base">
-          <thead className="bg-orange-100 text-slate-700">
+          <thead className={`${isDarkMode ? 'bg-orange-600' : 'bg-orange-400'} text-white`}>
             <tr>
               <th className="px-4 py-3">Event Name</th>
               <th className="px-4 py-3">Description</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100 bg-white">
+          <tbody className={`divide-y ${isDarkMode ? 'divide-gray-800 bg-black' : 'divide-gray-200 bg-white'}`}>
             {standardEvents.map(([eventName, description]) => (
               <tr key={eventName}>
-                <td className="px-4 py-3 text-slate-700">{eventName}</td>
-                <td className="px-4 py-3 text-slate-700">{description}</td>
+                <td className={`px-4 py-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{eventName}</td>
+                <td className={`px-4 py-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{description}</td>
               </tr>
             ))}
           </tbody>

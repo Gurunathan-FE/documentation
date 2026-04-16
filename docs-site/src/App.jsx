@@ -1,8 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import Fuse from 'fuse.js'
 import StandardAttributes from './sections/StandardAttributes'
 import { FiChevronDown, FiMoon, FiSun } from 'react-icons/fi'
 import { AixelLogo } from './components/AixelLogo'
+import DocumentationSearch from './components/DocumentationSearch'
 import Installation from './sections/Installation'
+import searchIcon from './assets/svgs/search.svg?raw'
+import { searchContent } from './config/searchContent'
 import {
   gettingStartedSections,
   navSections,
@@ -14,10 +18,13 @@ const THEME_STORAGE_KEY = 'docs-theme-mode'
 export default function App() {
   const [activeSection, setActiveSection] = useState(navSections[0].id)
   const [activeChildSection, setActiveChildSection] = useState(null)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [expandedSections, setExpandedSections] = useState(() =>
     Object.fromEntries(navSections.map((section) => [section.id, true])),
   )
   const mainScrollRef = useRef(null)
+  const searchContainerRef = useRef(null)
   const [themeMode, setThemeMode] = useState(() => {
     if (typeof window === 'undefined') return 'light'
     const savedMode = window.localStorage.getItem(THEME_STORAGE_KEY)
@@ -30,6 +37,48 @@ export default function App() {
     return 'light'
   })
   const isDarkMode = themeMode === 'dark'
+  const fuse = useMemo(
+    () =>
+      new Fuse(searchContent, {
+        threshold: 0.35,
+        ignoreLocation: true,
+        minMatchCharLength: 2,
+        keys: [
+          { name: 'title', weight: 0.45 },
+          { name: 'section', weight: 0.2 },
+          { name: 'keywords', weight: 0.2 },
+          { name: 'body', weight: 0.15 },
+        ],
+      }),
+    [],
+  )
+
+  const searchResults = useMemo(() => {
+    const query = searchQuery.trim()
+    if (!query) return []
+
+    return fuse.search(query).map((result) => result.item).slice(0, 8)
+  }, [fuse, searchQuery])
+
+  const handleSelectSearchResult = (result) => {
+    scrollMainToSection(result.id)
+    setSearchQuery(result.title)
+    setIsSearchOpen(false)
+
+    if (result.id.startsWith('standard-')) {
+      setActiveSection('standard-attributes')
+      setActiveChildSection(
+        result.id === 'standard-attributes' ? null : result.id,
+      )
+      setExpandedSections((prev) => ({ ...prev, 'standard-attributes': true }))
+      return
+    }
+
+    if (result.id.startsWith('installation-')) {
+      setActiveSection('Installation')
+      setActiveChildSection(result.id)
+    }
+  }
 
   const scrollMainToSection = (sectionId) => {
     const target = document.getElementById(sectionId)
@@ -38,7 +87,7 @@ export default function App() {
 
     const mainRect = mainElement.getBoundingClientRect()
     const targetRect = target.getBoundingClientRect()
-    const top = targetRect.top - mainRect.top + mainElement.scrollTop - 8
+    const top = targetRect.top - mainRect.top + mainElement.scrollTop - 16
     mainElement.scrollTo({ top, behavior: 'auto' })
   }
 
@@ -46,6 +95,17 @@ export default function App() {
     document.documentElement.classList.toggle('dark', isDarkMode)
     window.localStorage.setItem(THEME_STORAGE_KEY, themeMode)
   }, [isDarkMode, themeMode])
+
+  useEffect(() => {
+    const handlePointerDown = (event) => {
+      if (!searchContainerRef.current?.contains(event.target)) {
+        setIsSearchOpen(false)
+      }
+    }
+
+    document.addEventListener('pointerdown', handlePointerDown)
+    return () => document.removeEventListener('pointerdown', handlePointerDown)
+  }, [])
 
   useEffect(() => {
     const getActiveFromScroll = () => {
@@ -102,46 +162,37 @@ export default function App() {
             <p className={`mt-1 text-base font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-500'}`}>Documentation</p>
           </div>
           <div className="flex justify-end items-center gap-4">
-            {/* <div className="relative">
-              <input
-                type="text"
-                placeholder="Search..."
-              className={`w-lg rounded-none border py-1 pl-10 pr-3 text-base placeholder:text-gray-400 focus:outline-none focus:ring-1 ${
-                isDarkMode
-                  ? 'border-zinc-700 bg-zinc-900 text-gray-100 placeholder:text-gray-500 focus:border-zinc-500 focus:ring-zinc-500'
-                  : 'border-gray-300 bg-white text-slate-900 focus:border-gray-400 focus:ring-gray-400'
-              }`}
-                style={{ boxSizing: 'border-box' }}
-              />
-              <span className={`pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <circle
-                    cx="11"
-                    cy="11"
-                    r="7"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    fill="none"
-                  />
-                  <line
-                    x1="21"
-                    y1="21"
-                    x2="16.65"
-                    y2="16.65"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </span>
-            </div> */}
+            <DocumentationSearch
+              isDarkMode={isDarkMode}
+              isOpen={isSearchOpen}
+              onClear={() => {
+                setSearchQuery('')
+                setIsSearchOpen(false)
+              }}
+              onChange={(event) => {
+                setSearchQuery(event.target.value)
+                setIsSearchOpen(true)
+              }}
+              onFocus={() => {
+                if (searchQuery.trim()) setIsSearchOpen(true)
+              }}
+              onKeyDown={(event) => {
+                if (event.key === 'Escape') {
+                  setIsSearchOpen(false)
+                  return
+                }
+
+                if (event.key === 'Enter' && searchResults.length > 0) {
+                  event.preventDefault()
+                  handleSelectSearchResult(searchResults[0])
+                }
+              }}
+              onSelectResult={handleSelectSearchResult}
+              searchContainerRef={searchContainerRef}
+              searchIcon={searchIcon}
+              searchQuery={searchQuery}
+              searchResults={searchResults}
+            />
             <button
               type="button"
               onClick={() => setThemeMode((previousMode) => (previousMode === 'dark' ? 'light' : 'dark'))}

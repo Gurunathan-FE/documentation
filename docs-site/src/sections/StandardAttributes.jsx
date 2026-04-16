@@ -1,6 +1,6 @@
 import DocSection from '../components/DocSection'
 
-const profileFields = [
+export const profileFields = [
   ['email', 'Primary email of the user'],
   ['secondary_email', 'Secondary contact email'],
   ['phone', 'Phone number'],
@@ -21,7 +21,7 @@ const profileFields = [
   ['company_website', 'Website URL'],
 ]
 
-const standardEvents = [
+export const standardEvents = [
   ['application_approved', 'Application is approved by system or admin'],
   ['book_appointment', 'User books an appointment slot'],
   ['complete_registration', 'User completes account registration'],

@@ -50,7 +50,7 @@ const standardEvents = [
 export default function StandardAttributes({ isDarkMode = false }) {
   return (
     <DocSection id="standard-attributes" title="Standard Attributes">
-      <p className={`mb-4 text-base ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+      <p>
         Use standard profile fields and event names for consistent analytics and user journeys.
       </p>
       <h3 id="standard-profile-fields" className={`scroll-mt-40 my-8 text-4xl font-semibold ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>Standard Profile Fields</h3>

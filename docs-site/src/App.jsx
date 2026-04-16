@@ -159,7 +159,7 @@ export default function App() {
         </div>
       </header>
 
-      <div className="mx-auto grid h-[calc(100vh-89px)] grid-cols-1 gap-8 md:grid-cols-[280px_1fr]">
+      <div className="mx-auto grid h-[calc(100vh-89px)] grid-cols-1 md:grid-cols-[280px_1fr]">
         <aside className="h-[calc(100vh-89px)]">
           <nav className={`sidebar-scroll h-full overflow-y-auto border-0 border-r px-8 py-4 pt-8 ${isDarkMode ? 'border-zinc-800 bg-zinc-950' : 'border-gray-200 bg-white'}`}>
             <h6 className={`mb-2 text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>Getting Started</h6>
@@ -287,7 +287,7 @@ export default function App() {
           </nav>
         </aside>
 
-        <main ref={mainScrollRef} className="sidebar-scroll h-[calc(100vh-89px)] overflow-y-auto pt-8 ">
+        <main ref={mainScrollRef} className="sidebar-scroll h-[calc(100vh-89px)] overflow-y-auto pt-8 px-8">
           <div className="max-w-6xl mx-auto">
             <StandardAttributes isDarkMode={isDarkMode} />
             <Installation isDarkMode={isDarkMode} />

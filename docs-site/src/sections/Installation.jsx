@@ -41,7 +41,7 @@ export default function Installation({ isDarkMode = true }) {
             type="button"
             onClick={() => setActiveTabForStep(stepKey, tab)}
             className={[
-              'w-full cursor-pointer rounded border px-3 py-1.5 text-sm font-medium focus:outline-none',
+              'w-full cursor-pointer border px-3 py-1.5 text-sm font-medium focus:outline-none',
               activeTabsByStep[stepKey] === tab
                 ? isDarkMode
                   ? 'border-orange-700 bg-orange-600 text-white'
@@ -66,28 +66,27 @@ export default function Installation({ isDarkMode = true }) {
     <DocSection id="installation" title="Installation">
       <div className="space-y-16">
         <div id="installation-step-1" className={`scroll-mt-40 ${sectionCardClass}`}>
-          <div className="mb-6 flex items-start gap-3">
-            <span className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border text-base font-semibold ${badgeClass}`}>
+          <div className="mb-6 flex items-center gap-3">
+            <span className={`rounded-full inline-flex h-12 w-12 shrink-0 items-center justify-center border text-xl font-semibold ${badgeClass}`}>
               01
             </span>
-            <div>
-              <h3 className={`text-2xl font-semibold ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>
+            <h3 className={`text-4xl font-semibold ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>
                 Add the script
               </h3>
-              <p className={`mt-1 text-sm ${subtleTextClass}`}>
+          </div>
+          <div className="my-8">
+              <p>
                 Copy and paste the bootstrap snippet into your app&apos;s root file (where your app loads).
               </p>
             </div>
-          </div>
-
           <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
             <div className="space-y-3">
               <p className={`text-sm font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>
                 Placement by framework
               </p>
 
-              <div className={`rounded-lg border p-3 ${itemClass}`}>
-                <span className={`mb-1 inline-block rounded border px-2 py-0.5 text-xs font-semibold ${tagClass}`}>
+              <div className={`border p-3 ${itemClass}`}>
+                <span className={`mb-2 inline-block border px-2 py-0.5 text-xs font-semibold ${tagClass}`}>
                   HTML
                 </span>
                 <p className={`text-sm ${mutedTextClass}`}>
@@ -95,8 +94,8 @@ export default function Installation({ isDarkMode = true }) {
                 </p>
               </div>
 
-              <div className={`rounded-lg border p-3 ${itemClass}`}>
-                <span className={`mb-1 inline-block rounded border px-2 py-0.5 text-xs font-semibold ${tagClass}`}>
+              <div className={`border p-3 ${itemClass}`}>
+                <span className={`mb-2 inline-block border px-2 py-0.5 text-xs font-semibold ${tagClass}`}>
                   React / Angular
                 </span>
                 <p className={`text-sm ${mutedTextClass}`}>
@@ -104,8 +103,8 @@ export default function Installation({ isDarkMode = true }) {
                 </p>
               </div>
 
-              <div className={`rounded-lg border p-3 ${itemClass}`}>
-                <span className={`mb-1 inline-block rounded border px-2 py-0.5 text-xs font-semibold ${tagClass}`}>
+              <div className={`border p-3 ${itemClass}`}>
+                <span className={`mb-2 inline-block border px-2 py-0.5 text-xs font-semibold ${tagClass}`}>
                   Next.js
                 </span>
                 <p className={`text-sm ${mutedTextClass}`}>
@@ -127,35 +126,35 @@ window.aixel.init('<api-key>', {
         </div>
 
         <div id="installation-step-2" className={`scroll-mt-40 ${sectionCardClass}`}>
-          <div className="mb-6 flex items-start gap-3">
-            <span className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border text-base font-semibold ${badgeClass}`}>
+          <div className="mb-6 flex items-center gap-3">
+            <span className={`rounded-full inline-flex h-12 w-12 shrink-0 items-center justify-center border text-xl font-semibold ${badgeClass}`}>
               02
             </span>
-            <div>
-              <h3 className={`text-2xl font-semibold ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>
-                Create pixel file
+            <h3 className={`text-4xl font-semibold ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>
+                Create a pixel file
               </h3>
-              <p className={`mt-1 text-sm ${subtleTextClass}`}>
+          </div>
+          <div className="my-8">
+              <p>
                 Create a pixel file to track events and identify users.
               </p>
             </div>
-          </div>
           {renderTabbedCode('createPixelFile')}
         </div>
 
         <div id="installation-step-3" className={`scroll-mt-40 ${sectionCardClass}`}>
-          <div className="mb-6 flex items-start gap-3">
-            <span className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border text-base font-semibold ${badgeClass}`}>
+          <div className="mb-6 flex items-center gap-3">
+            <span className={`rounded-full inline-flex h-12 w-12 shrink-0 items-center justify-center border text-xl font-semibold ${badgeClass}`}>
               03
             </span>
-            <div>
-              <h3 className={`text-2xl font-semibold ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>
+            <h3 className={`text-4xl font-semibold ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>
                 Create profile
               </h3>
-              <p className={`mt-1 text-sm ${subtleTextClass}`}>
+          </div>
+          <div className="my-8">
+              <p>
                 Use <code>identify()</code> to create and associate events with a specific user.
               </p>
-            </div>
           </div>
           <CodeBlock
             code={`aixel.identify('distinct_id', { first_name: 'John', last_name: 'Doe', email: 'john.doe@example.com', phone: '1234567890' });`}
@@ -210,19 +209,19 @@ window.aixel.init('<api-key>', {
         </div>
 
         <div id="installation-step-4" className={`scroll-mt-40 ${sectionCardClass}`}>
-          <div className="mb-6 flex items-start gap-3">
-            <span className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border text-base font-semibold ${badgeClass}`}>
+          <div className="mb-6 flex items-center gap-3">
+            <span className={`rounded-full inline-flex h-12 w-12 shrink-0 items-center justify-center border text-xl font-semibold ${badgeClass}`}>
               04
             </span>
-            <div>
-              <h3 className={`text-2xl font-semibold ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>
+            <h3 className={`text-4xl font-semibold ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>
                 Track events
               </h3>
-              <p className={`mt-1 text-sm ${subtleTextClass}`}>
+          </div>
+          <div className="my-8">
+              <p>
                 Use <code>track()</code> to send events to the server.
               </p>
             </div>
-          </div>
             <CodeBlock code={`aixel.track('<event_name>', payload);`} />
             <p className={`my-4 ${subtleTextClass}`}>The payload is an optional object that contains the data to be sent to the server.</p>
 

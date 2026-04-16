@@ -33,18 +33,18 @@ export default function CodeBlock({ code, language = 'Code'}) {
 
   return (
     <div
-      className={`overflow-hidden border rounded-xl ${
+      className={`overflow-hidden border ${
         isDarkMode
           ? 'border-zinc-700 bg-zinc-950'
           : 'border-zinc-300 bg-white'
       }`}
     >
-      <div className="flex items-center justify-between px-2 pt-2 rounded-xl">
+      <div className="flex items-center justify-between px-2 pt-2">
         <span className={`text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-900'}`}>{language}</span>
         <button
           type="button"
           onClick={handleCopy}
-          className={`cursor-pointer rounded-lg border-zinc-600 ${isDarkMode ? 'bg-zinc-900 text-zinc-100 hover:bg-zinc-700' : 'bg-zinc-100 text-zinc-900'} p-1 text-xs transition hover:bg-zinc-200`}
+          className={`cursor-pointer border-zinc-600 ${isDarkMode ? 'text-zinc-100 hover:bg-zinc-800' : 'text-zinc-900'} p-1 text-xs transition hover:bg-zinc-200`}
      
           aria-label={copied ? 'Copied' : 'Copy code'}
           title={copied ? 'Copied' : 'Copy code'}
@@ -53,7 +53,7 @@ export default function CodeBlock({ code, language = 'Code'}) {
         </button>
       </div>
       <pre
-        className={`m-2 overflow-x-auto rounded-lg p-4 text-sm leading-7 ${isDarkMode ? 'bg-zinc-800 text-zinc-100' : 'bg-zinc-100 text-zinc-900'}`}
+        className={`m-2 overflow-x-auto p-4 text-sm leading-7 ${isDarkMode ? 'bg-zinc-800 text-zinc-100' : 'bg-zinc-100 text-zinc-900'}`}
       >
         <code>{code}</code>
       </pre>

@@ -17,7 +17,7 @@ export const searchContent = [
     id: 'standard-attributes',
     title: 'Standard Attributes',
     section: 'Getting Started',
-    body: 'Use standard profile fields and event names for consistent analytics and user journeys.',
+    body: 'Adopting standard profile fields and event names ensures consistency across your data, making analytics, segmentation, and user journey tracking much more reliable. By following a common set of attributes and events, you can streamline integrations, simplify reporting, and facilitate collaboration between product, engineering, and analytics teams. Refer to the tables below for the recommended standard fields and events to use throughout your application.',
     keywords: ['attributes', 'analytics', 'journeys'],
   },
   {

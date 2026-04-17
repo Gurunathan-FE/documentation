@@ -49,9 +49,10 @@ export const standardEvents = [
 
 export default function StandardAttributes({ isDarkMode = false }) {
   return (
-    <DocSection id="standard-attributes" title="Standard Attributes">
-      <p>
-        Use standard profile fields and event names for consistent analytics and user journeys.
+    <DocSection id="standard-attributes" title="Getting Started">
+      <h3 className={`scroll-mt-40 my-8 text-4xl font-semibold ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>Standard Attributes</h3>
+      <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-800'}`}>
+        Adopting standard profile fields and event names ensures consistency across your data, making analytics, segmentation, and user journey tracking much more reliable. By following a common set of attributes and events, you can streamline integrations, simplify reporting, and facilitate collaboration between product, engineering, and analytics teams. Refer to the tables below for the recommended standard fields and events to use throughout your application.
       </p>
       <h3 id="standard-profile-fields" className={`scroll-mt-40 my-8 text-4xl font-semibold ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>Standard Profile Fields</h3>
       <div className={`scroll-mt-40 mb-8 overflow-x-auto border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>

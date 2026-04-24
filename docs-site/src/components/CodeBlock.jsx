@@ -1,7 +1,13 @@
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { FiCheck, FiCopy } from 'react-icons/fi'
 
-export default function CodeBlock({ code, language = 'Code'}) {
+
+export default function CodeBlock({
+  code,
+  language = 'Code',
+  highlightText = '',
+  highlightClassName = 'text-red-500',
+}) {
   const [copied, setCopied] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(() => {
     if (typeof document === 'undefined') return false
@@ -31,6 +37,19 @@ export default function CodeBlock({ code, language = 'Code'}) {
     }
   }
 
+  const renderCodeWithHighlight = () => {
+    if (!highlightText || !code.includes(highlightText)) return code
+    const parts = code.split(highlightText)
+    return parts.map((part, index) => (
+      <Fragment key={`code-part-${index}`}>
+        {part}
+        {index < parts.length - 1 ? (
+          <span className={highlightClassName}>{highlightText}</span>
+        ) : null}
+      </Fragment>
+    ))
+  }
+
   return (
     <div
       className={`overflow-hidden border ${
@@ -55,7 +74,7 @@ export default function CodeBlock({ code, language = 'Code'}) {
       <pre
         className={`m-2 overflow-x-auto p-4 text-sm leading-7 ${isDarkMode ? 'bg-zinc-800 text-zinc-100' : 'bg-zinc-100 text-zinc-900'}`}
       >
-        <code>{code}</code>
+        <code>{renderCodeWithHighlight()}</code>
       </pre>
     </div>
   )

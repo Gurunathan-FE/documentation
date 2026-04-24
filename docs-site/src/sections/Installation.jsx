@@ -5,6 +5,11 @@ import {
   FRAMEWORK_TABS,
   getInstallationTabCode,
 } from './installationTabContent'
+import languageIcon from '../assets/language-icons/html.svg';
+import reactIcon from '../assets/language-icons/react.svg';
+import nextIcon from '../assets/language-icons/nextjs.svg';
+import angularIcon from '../assets/language-icons/angular.svg';
+
 
 export default function Installation({ isDarkMode = true }) {
   const [activeTabsByStep, setActiveTabsByStep] = useState({
@@ -41,16 +46,17 @@ export default function Installation({ isDarkMode = true }) {
             type="button"
             onClick={() => setActiveTabForStep(stepKey, tab)}
             className={[
-              'w-full cursor-pointer border px-3 py-1.5 text-sm font-medium focus:outline-none',
+              'inline-flex items-center gap-1 w-full cursor-pointer border-b-2 px-3 py-1.5 text-sm font-medium focus:outline-none',
               activeTabsByStep[stepKey] === tab
                 ? isDarkMode
-                  ? 'border-orange-700 bg-orange-600 text-white'
-                  : 'border-orange-400 bg-orange-400 text-white'
+                  ? 'border-orange-700 '
+                  : 'border-orange-400 '
                 : isDarkMode
-                  ? 'border-zinc-700 bg-zinc-900 text-zinc-300 hover:bg-zinc-800'
-                  : 'border-zinc-300 bg-zinc-100 text-zinc-700 hover:bg-zinc-200',
+                  ? 'border-zinc-700 text-zinc-300 hover:bg-zinc-800'
+                  : 'border-zinc-300 text-zinc-700 hover:bg-zinc-200',
             ].join(' ')}
           >
+            <img src={tab === 'HTML' ? languageIcon : tab === 'React' ? reactIcon : tab === 'Next.js' ? nextIcon : angularIcon} alt={tab} className="h-6 w-6" />
             {tab}
           </button>
         ))}
@@ -115,6 +121,8 @@ export default function Installation({ isDarkMode = true }) {
 
             <CodeBlock
               language="Script"
+              highlightText="'<api-key>'"
+              highlightClassName="text-red-500"
               code={`<script type="text/javascript">
 !function(){"use strict";!function(t,e){if(!e.__aixelVersion){"events,identify,onLoad".split(",").forEach(function(t){var i,n,a;i=e,2===(a=(n=t).split(".")).length&&(i=i[a[0]],n=a[1]),i[n]=function(){i.push([n].concat(Array.prototype.slice.call(arguments,0)))}}),window.aixel=e,e.__aixelVersion="0.0.1",e.init=function(i,n){e.push(["init",i,n]);var a=t.createElement("script");a.type="text/javascript",a.async=!0,a.src="//d3lwdfc3pm008a.cloudfront.net/web.js";var c=t.getElementsByTagName("script")[0];c.parentNode.insertBefore(a,c)}}}(document,window.aixel||[])}();
 window.aixel.init('<api-key>', {
@@ -156,7 +164,7 @@ window.aixel.init('<api-key>', {
                 Use <code>identify()</code> to create and associate events with a specific user.
               </p>
           </div>
-          <CodeBlock
+          <CodeBlock 
             code={`aixel.identify('distinct_id', { first_name: 'John', last_name: 'Doe', email: 'john.doe@example.com', phone: '1234567890' });`}
           />
           {renderTabbedCode('createProfile')}
@@ -222,13 +230,15 @@ window.aixel.init('<api-key>', {
                 Use <code>track()</code> to send events to the server.
               </p>
             </div>
-            <CodeBlock code={`aixel.track('<event_name>', payload);`} />
+            <CodeBlock language="Script" highlightText="'<event_name>'"
+              highlightClassName="text-red-500" code={`aixel.track('<event_name>', payload);`} />
             <p className={`my-4 ${subtleTextClass}`}>The payload is an optional object that contains the data to be sent to the server.</p>
 
           {renderTabbedCode('trackEvents')}
 
           <p className={`my-4 text-base ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>For Standard Event names refer Standard Events in <a href="#standard-attributes" className="text-orange-600 hover:text-orange-700 underline transition-colors">Standard Attributes</a>. You can also use custom event names with corresponding payloads.</p>
-          <CodeBlock code={`window.aixel.track('<custom-event-name>', payload_object);`} />
+          <CodeBlock language="Script" highlightText="'<custom-event-name>'"
+              highlightClassName="text-red-500" code={`window.aixel.track('<custom-event-name>', payload_object);`} />
         </div>
       </div>
     </DocSection>

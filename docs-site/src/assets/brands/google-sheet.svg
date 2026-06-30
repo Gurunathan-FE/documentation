@@ -1,0 +1,73 @@
+<svg width="49" height="67" viewBox="0 0 49 67" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <path d="M29.583 0H4.438A4.45 4.45 0 0 0 0 4.438v56.208a4.45 4.45 0 0 0 4.438 4.437h38.458a4.45 4.45 0 0 0 4.437-4.437V17.75z" id="a"/>
+    <path d="M29.583 0H4.438A4.45 4.45 0 0 0 0 4.438v56.208a4.45 4.45 0 0 0 4.438 4.437h38.458a4.45 4.45 0 0 0 4.437-4.437V17.75z" id="c"/>
+    <path d="M29.583 0H4.438A4.45 4.45 0 0 0 0 4.438v56.208a4.45 4.45 0 0 0 4.438 4.437h38.458a4.45 4.45 0 0 0 4.437-4.437V17.75z" id="e"/>
+    <path d="M29.583 0H4.438A4.45 4.45 0 0 0 0 4.438v56.208a4.45 4.45 0 0 0 4.438 4.437h38.458a4.45 4.45 0 0 0 4.437-4.437V17.75z" id="h"/>
+    <path d="M29.583 0H4.438A4.45 4.45 0 0 0 0 4.438v56.208a4.45 4.45 0 0 0 4.438 4.437h38.458a4.45 4.45 0 0 0 4.437-4.437V17.75z" id="j"/>
+    <path d="M29.583 0H4.438A4.45 4.45 0 0 0 0 4.438v56.208a4.45 4.45 0 0 0 4.438 4.437h38.458a4.45 4.45 0 0 0 4.437-4.437V17.75z" id="l"/>
+    <path d="M29.583 0H4.438A4.45 4.45 0 0 0 0 4.438v56.208a4.45 4.45 0 0 0 4.438 4.437h38.458a4.45 4.45 0 0 0 4.437-4.437V17.75z" id="n"/>
+    <radialGradient cx="3.168%" cy="2.717%" fx="3.168%" fy="2.717%" r="161.249%" gradientTransform="matrix(1 0 0 .72727 0 .007)" id="p">
+      <stop stop-color="#FFF" stop-opacity=".1" offset="0%"/>
+      <stop stop-color="#FFF" stop-opacity="0" offset="100%"/>
+    </radialGradient>
+    <linearGradient x1="50.005%" y1="8.586%" x2="50.005%" y2="100.014%" id="f">
+      <stop stop-color="#263238" stop-opacity=".2" offset="0%"/>
+      <stop stop-color="#263238" stop-opacity=".02" offset="100%"/>
+    </linearGradient>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <g transform="translate(.833 .958)">
+      <mask id="b" fill="#fff">
+        <use xlink:href="#a"/>
+      </mask>
+      <g/>
+      <path d="M29.583 0H4.438A4.45 4.45 0 0 0 0 4.438v56.208a4.45 4.45 0 0 0 4.438 4.437h38.458a4.45 4.45 0 0 0 4.437-4.437V17.75L36.98 10.354z" fill="#0F9D58" fill-rule="nonzero" mask="url(#b)"/>
+    </g>
+    <g transform="translate(.833 .958)">
+      <mask id="d" fill="#fff">
+        <use xlink:href="#c"/>
+      </mask>
+      <g/>
+      <path d="M11.833 31.802V53.25H35.5V31.802zm10.355 18.49h-7.396v-3.698h7.396zm0-5.917h-7.396v-3.698h7.396zm0-5.917h-7.396V34.76h7.396zm10.354 11.834h-7.396v-3.698h7.396zm0-5.917h-7.396v-3.698h7.396zm0-5.917h-7.396V34.76h7.396z" fill="#F1F1F1" fill-rule="nonzero" mask="url(#d)"/>
+    </g>
+    <g transform="translate(.833 .958)">
+      <mask id="g" fill="#fff">
+        <use xlink:href="#e"/>
+      </mask>
+      <g/>
+      <path fill="url(#f)" fill-rule="nonzero" mask="url(#g)" d="M30.881 16.452 47.333 32.9V17.75z"/>
+    </g>
+    <g transform="translate(.833 .958)">
+      <mask id="i" fill="#fff">
+        <use xlink:href="#h"/>
+      </mask>
+      <g/>
+      <g mask="url(#i)">
+        <path d="M29.583 0v13.313a4.436 4.436 0 0 0 4.438 4.437h13.312z" fill="#87CEAC" fill-rule="nonzero"/>
+      </g>
+    </g>
+    <g transform="translate(.833 .958)">
+      <mask id="k" fill="#fff">
+        <use xlink:href="#j"/>
+      </mask>
+      <g/>
+      <path d="M4.438 0A4.45 4.45 0 0 0 0 4.438v.37A4.45 4.45 0 0 1 4.438.37h25.145V0z" fill-opacity=".2" fill="#FFF" fill-rule="nonzero" mask="url(#k)"/>
+    </g>
+    <g transform="translate(.833 .958)">
+      <mask id="m" fill="#fff">
+        <use xlink:href="#l"/>
+      </mask>
+      <g/>
+      <path d="M42.896 64.714H4.438A4.45 4.45 0 0 1 0 60.276v.37a4.45 4.45 0 0 0 4.438 4.437h38.458a4.45 4.45 0 0 0 4.437-4.437v-.37a4.45 4.45 0 0 1-4.437 4.438" fill-opacity=".2" fill="#263238" fill-rule="nonzero" mask="url(#m)"/>
+    </g>
+    <g transform="translate(.833 .958)">
+      <mask id="o" fill="#fff">
+        <use xlink:href="#n"/>
+      </mask>
+      <g/>
+      <path d="M34.02 17.75a4.436 4.436 0 0 1-4.437-4.437v.37a4.436 4.436 0 0 0 4.438 4.437h13.312v-.37z" fill-opacity=".1" fill="#263238" fill-rule="nonzero" mask="url(#o)"/>
+    </g>
+    <path d="M29.583 0H4.438A4.45 4.45 0 0 0 0 4.438v56.208a4.45 4.45 0 0 0 4.438 4.437h38.458a4.45 4.45 0 0 0 4.437-4.437V17.75z" fill="url(#p)" fill-rule="nonzero" transform="translate(.833 .958)"/>
+  </g>
+</svg>

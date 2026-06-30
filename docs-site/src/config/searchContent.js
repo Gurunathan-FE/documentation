@@ -1,5 +1,5 @@
-import { profileFields, standardEvents } from '../sections/StandardAttributes'
-import { INSTALLATION_TAB_CONTENT } from '../sections/installationTabContent'
+import { profileFields, standardEvents } from '../content/standard-attributes/data'
+import { INSTALLATION_TAB_CONTENT } from '../content/installation/tabContent'
 
 const frameworkOrder = ['HTML', 'React', 'Angular', 'Next.js']
 
@@ -37,7 +37,7 @@ export const searchContent = [
     keywords: ['profile field', 'identify'],
   })),
   {
-    id: 'standard-events',
+    id: 'standard-attributes',
     title: 'Standard Events',
     section: 'Standard Attributes',
     body: standardEvents
@@ -46,7 +46,7 @@ export const searchContent = [
     keywords: ['events', 'tracking', 'track'],
   },
   ...standardEvents.map(([eventName, description]) => ({
-    id: 'standard-events',
+    id: 'standard-attributes',
     title: eventName,
     section: 'Standard Attributes / Events',
     body: description,

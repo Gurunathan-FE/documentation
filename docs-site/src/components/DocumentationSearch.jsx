@@ -22,7 +22,7 @@ export default function DocumentationSearch({
         onChange={onChange}
         onFocus={onFocus}
         onKeyDown={onKeyDown}
-        className={`w-xl rounded-none border py-2 pl-10 pr-3 text-base placeholder:text-gray-400 focus:outline-none focus:ring-1 ${
+        className={`w-xl rounded-md border py-2 pl-10 pr-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 ${
           isDarkMode
             ? 'border-zinc-700 bg-zinc-900 text-gray-100 placeholder:text-gray-500 focus:border-zinc-500 focus:ring-zinc-500'
             : 'border-gray-300 bg-white text-slate-900 focus:border-gray-400 focus:ring-gray-400'

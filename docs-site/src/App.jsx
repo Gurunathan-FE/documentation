@@ -1,45 +1,76 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import Fuse from 'fuse.js'
-import StandardAttributes from './sections/StandardAttributes'
-import { FiChevronDown, FiMoon, FiSun } from 'react-icons/fi'
+import { FiMoon, FiSun } from 'react-icons/fi'
 import { AixelLogo } from './components/AixelLogo'
+import DocSidebar from './components/DocSidebar'
+import OnThisPage, { OnThisPageMobile } from './components/OnThisPage'
 import DocumentationSearch from './components/DocumentationSearch'
-import Installation from './sections/Installation'
+import usePageTableOfContents from './hooks/usePageTableOfContents'
+import DocRoutePage from './pages/DocRoutePage'
+import SiteFooter from './components/SiteFooter'
 import searchIcon from './assets/svgs/search.svg?raw'
 import { searchContent } from './config/searchContent'
 import {
-  gettingStartedSections,
-  navSections,
-  stepsToInstall,
-} from './config/navigation'
+  defaultPath,
+  docGroups,
+  flatNav,
+  idToPath,
+  pathToRoute,
+  routes,
+  searchIndex,
+} from './content/registry'
 
 const THEME_STORAGE_KEY = 'docs-theme-mode'
 
+function useActiveNavFromRoute(pathname) {
+  const route = pathToRoute[pathname]
+
+  if (!route) {
+    return { activeSectionId: null, activeChildId: null }
+  }
+
+  if (route.type === 'overview') {
+    return { activeSectionId: route.section.id, activeChildId: null }
+  }
+
+  return { activeSectionId: route.section.id, activeChildId: route.page.id }
+}
+
 export default function App() {
-  const [activeSection, setActiveSection] = useState(navSections[0].id)
-  const [activeChildSection, setActiveChildSection] = useState(null)
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
+  const { activeSectionId, activeChildId } = useActiveNavFromRoute(pathname)
   const [searchQuery, setSearchQuery] = useState('')
   const [isSearchOpen, setIsSearchOpen] = useState(false)
-  const [expandedSections, setExpandedSections] = useState(() =>
-    Object.fromEntries(navSections.map((section) => [section.id, true])),
-  )
-  const mainScrollRef = useRef(null)
+  const pageScrollRef = useRef(null)
+  const contentRef = useRef(null)
   const searchContainerRef = useRef(null)
   const [themeMode, setThemeMode] = useState(() => {
     if (typeof window === 'undefined') return 'light'
     const savedMode = window.localStorage.getItem(THEME_STORAGE_KEY)
     if (savedMode === 'light' || savedMode === 'dark') return savedMode
     if (savedMode === 'system') {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'dark'
-        : 'light'
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
     }
     return 'light'
   })
   const isDarkMode = themeMode === 'dark'
+
+  const searchableItems = useMemo(
+    () => [
+      ...searchIndex,
+      ...searchContent.map((item) => ({
+        ...item,
+        path: idToPath[item.id] ?? null,
+      })),
+    ],
+    [],
+  )
+
   const fuse = useMemo(
     () =>
-      new Fuse(searchContent, {
+      new Fuse(searchableItems, {
         threshold: 0.35,
         ignoreLocation: true,
         minMatchCharLength: 2,
@@ -50,7 +81,7 @@ export default function App() {
           { name: 'body', weight: 0.15 },
         ],
       }),
-    [],
+    [searchableItems],
   )
 
   const searchResults = useMemo(() => {
@@ -60,41 +91,41 @@ export default function App() {
     return fuse.search(query).map((result) => result.item).slice(0, 8)
   }, [fuse, searchQuery])
 
-  const handleSelectSearchResult = (result) => {
-    scrollMainToSection(result.id)
-    setSearchQuery(result.title)
-    setIsSearchOpen(false)
-
-    if (result.id.startsWith('standard-')) {
-      setActiveSection('standard-attributes')
-      setActiveChildSection(
-        result.id === 'standard-attributes' ? null : result.id,
-      )
-      setExpandedSections((prev) => ({ ...prev, 'standard-attributes': true }))
-      return
-    }
-
-    if (result.id.startsWith('installation-')) {
-      setActiveSection('Installation')
-      setActiveChildSection(result.id)
-    }
-  }
-
   const scrollMainToSection = (sectionId) => {
     const target = document.getElementById(sectionId)
-    const mainElement = mainScrollRef.current
-    if (!target || !mainElement) return
+    const scrollContainer = pageScrollRef.current
+    if (!target || !scrollContainer) return
 
-    const mainRect = mainElement.getBoundingClientRect()
+    const containerRect = scrollContainer.getBoundingClientRect()
     const targetRect = target.getBoundingClientRect()
-    const top = targetRect.top - mainRect.top + mainElement.scrollTop - 16
-    mainElement.scrollTo({ top, behavior: 'auto' })
+    const top = targetRect.top - containerRect.top + scrollContainer.scrollTop - 24
+    scrollContainer.scrollTo({ top, behavior: 'smooth' })
   }
+
+  const handleSelectSearchResult = (result) => {
+    const path = result.path ?? idToPath[result.id]
+
+    if (path) {
+      navigate(path)
+      setSearchQuery(result.title)
+      setIsSearchOpen(false)
+    }
+  }
+
+  const { activeHeadingId, tocItems } = usePageTableOfContents({
+    scrollContainerRef: pageScrollRef,
+    contentRef,
+    pathname,
+  })
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', isDarkMode)
     window.localStorage.setItem(THEME_STORAGE_KEY, themeMode)
   }, [isDarkMode, themeMode])
+
+  useEffect(() => {
+    pageScrollRef.current?.scrollTo({ top: 0 })
+  }, [pathname])
 
   useEffect(() => {
     const handlePointerDown = (event) => {
@@ -107,61 +138,25 @@ export default function App() {
     return () => document.removeEventListener('pointerdown', handlePointerDown)
   }, [])
 
-  useEffect(() => {
-    const getActiveFromScroll = () => {
-      const markerY = 180
-
-      let nextActiveId = navSections[0].id
-
-      for (const section of navSections) {
-        const element = document.getElementById(section.id)
-        if (!element) continue
-
-        const rect = element.getBoundingClientRect()
-        if (rect.top <= markerY) {
-          nextActiveId = section.id
-        } else {
-          break
-        }
-      }
-
-      setActiveSection(nextActiveId)
-    }
-
-    let ticking = false
-    const onScroll = () => {
-      if (ticking) return
-      ticking = true
-      window.requestAnimationFrame(() => {
-        getActiveFromScroll()
-        ticking = false
-      })
-    }
-
-    const mainElement = mainScrollRef.current
-    getActiveFromScroll()
-    if (mainElement) {
-      mainElement.addEventListener('scroll', onScroll, { passive: true })
-    }
-    window.addEventListener('resize', getActiveFromScroll)
-
-    return () => {
-      if (mainElement) {
-        mainElement.removeEventListener('scroll', onScroll)
-      }
-      window.removeEventListener('resize', getActiveFromScroll)
-    }
-  }, [])
-
   return (
-    <div className={`h-screen overflow-hidden text-[16px] ${isDarkMode ? 'bg-black text-gray-100' : 'bg-white text-slate-900'}`}>
-      <header className={`sticky top-0 z-40 border-0 border-b ${isDarkMode ? 'border-zinc-800 bg-zinc-950' : 'border-gray-200 bg-white'}`}>
-        <div className="mx-auto p-4 py-6 grid md:grid-cols-[280px_1fr] gap-8 items-center">
+    <div
+      ref={pageScrollRef}
+      className={`sidebar-scroll h-screen overflow-y-auto bg-card text-[16px] ${isDarkMode ? 'text-gray-100 bg-zinc-900/40' : 'text-slate-900 bg-white/70'}`}
+    >
+      <header
+        className={`sticky top-0 z-40 border-0 border-b bg-background ${isDarkMode ? 'border-zinc-800' : 'border-gray-200'}`}
+      >
+        <div className="grid items-center gap-8 p-4 py-6 md:grid-cols-[200px_minmax(0,1fr)] xl:grid-cols-[240px_minmax(0,1fr)_200px]">
           <div className="flex gap-4">
-            <AixelLogo size={84} className={`border-r-2 pr-4 ${isDarkMode ? 'border-zinc-700' : 'border-gray-200'}`} />
-            <p className={`mt-1 text-base font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-500'}`}>Documentation</p>
+            <AixelLogo
+              size={84}
+              className={`border-r-2 pr-4 ${isDarkMode ? 'border-zinc-700' : 'border-gray-200'}`}
+            />
+            <p className={`mt-1 text-base font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-500'}`}>
+              Documentation
+            </p>
           </div>
-          <div className="flex justify-end items-center gap-4">
+          <div className="flex items-center gap-4">
             <DocumentationSearch
               isDarkMode={isDarkMode}
               isOpen={isSearchOpen}
@@ -196,7 +191,47 @@ export default function App() {
             <button
               type="button"
               onClick={() => setThemeMode((previousMode) => (previousMode === 'dark' ? 'light' : 'dark'))}
-              className={`inline-flex cursor-pointer items-center gap-2 border px-3 py-2 text-sm transition ${
+              className={`inline-flex cursor-pointer rounded-md items-center gap-2 border px-3 py-2 text-sm transition xl:hidden ${
+                isDarkMode
+                  ? 'border-zinc-700 bg-zinc-900 text-gray-200 hover:bg-zinc-800'
+                  : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-100'
+              }`}
+              aria-label={`Switch to ${isDarkMode ? 'light' : 'dark'} mode`}
+              title={`Using ${themeMode} mode`}
+            >
+              {isDarkMode ? <FiSun className="h-4 w-4" /> : <FiMoon className="h-4 w-4" />}
+            </button>
+          </div>
+          <div className="hidden items-center justify-end xl:flex gap-2 w-full">
+          <a
+              href="https://app.aixel.io/register"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`inline-flex cursor-pointer rounded-md items-center gap-2 px-3 py-2 text-sm font-semibold transition h-9 text-nowrap ${
+                isDarkMode
+                  ? 'text-white hover:bg-zinc-800/80 border-black/10'
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              Create account
+            </a>
+            <a
+              href="https://app.aixel.io/login"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`inline-flex cursor-pointer rounded-md items-center gap-2 px-6 py-2 text-sm font-semibold transition h-9 text-nowrap bg-orange-400 border text-white ${
+                isDarkMode
+                  ? 'text-gray-200 hover:bg-orange-400/90 border-black/10'
+                  : 'text-gray-700 hover:bg-orange-400/90'
+              }`}
+            >
+              Log in
+            </a>
+       
+            <button
+              type="button"
+              onClick={() => setThemeMode((previousMode) => (previousMode === 'dark' ? 'light' : 'dark'))}
+              className={`inline-flex cursor-pointer rounded-md items-center gap-2 border px-3 py-2 text-sm transition ${
                 isDarkMode
                   ? 'border-zinc-700 bg-zinc-900 text-gray-200 hover:bg-zinc-800'
                   : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-100'
@@ -210,141 +245,64 @@ export default function App() {
         </div>
       </header>
 
-      <div className="mx-auto grid h-[calc(100vh-89px)] grid-cols-1 md:grid-cols-[280px_1fr]">
-        <aside className="h-[calc(100vh-89px)]">
-          <nav className={`sidebar-scroll h-full overflow-y-auto border-0 border-r px-8 py-4 pt-8 ${isDarkMode ? 'border-zinc-800 bg-zinc-950' : 'border-gray-200 bg-white'}`}>
-            <h6 className={`mb-2 text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>Getting Started</h6>
-            <ul className="space-y-1.5">
-              {gettingStartedSections.map((item) => (
-                <li key={item.id} className="pb-1">
-                  <div className="flex items-center gap-1">
-                    <a
-                      href={`#${item.id}`}
-                      onClick={(event) => {
-                        event.preventDefault()
-                        if (item.children?.length) {
-                          setExpandedSections((prev) => ({
-                            ...prev,
-                            [item.id]: !prev[item.id],
-                          }))
-                          return
-                        }
-                        setActiveSection(item.id)
-                        setActiveChildSection(null)
-                        setExpandedSections((prev) => ({ ...prev, [item.id]: true }))
-                        scrollMainToSection(item.id)
-                      }}
-                      className={`flex-1 px-2.5 py-2 text-[15px] transition ${
-                        activeSection === item.id
-                          ? 'text-orange-600'
-                          : isDarkMode
-                            ? 'text-gray-300 hover:bg-zinc-900 hover:text-gray-100'
-                            : 'text-gray-600 hover:bg-gray-100 hover:text-gray-800'
-                      }`}
-                    >
-                      {item.label}
-                    </a>
-                    <button
-                      type="button"
-                      aria-label={`Toggle ${item.label}`}
-                      onClick={() =>
-                        setExpandedSections((prev) => ({
-                          ...prev,
-                          [item.id]: !prev[item.id],
-                        }))
-                      }
-                      className={`px-2 py-2 ${
-                        isDarkMode
-                          ? 'text-gray-500 hover:bg-zinc-900 hover:text-gray-200'
-                          : 'text-gray-400 hover:bg-gray-100 hover:text-gray-700'
-                      }`}
-                    >
-                      <span
-                        className={`inline-block transition-transform ${
-                          expandedSections[item.id] ? 'rotate-0' : '-rotate-90'
-                        }`}
-                      >
-                        <FiChevronDown className="h-4 w-4" />
-                      </span>
-                    </button>
-                  </div>
-
-                  {item.children?.length && expandedSections[item.id] ? (
-                    <ul className={`ml-4 mt-1 space-y-1 border-l pl-2 ${isDarkMode ? 'border-zinc-700' : 'border-gray-200'}`}>
-                      {item.children.map((child) => (
-                        <li key={child.id}>
-                          <a
-                            href={`#${child.id}`}
-                            onClick={(event) => {
-                              event.preventDefault()
-                              scrollMainToSection(child.id)
-                              setActiveSection(item.id)
-                              setActiveChildSection(child.id)
-                            }}
-                            className={`block px-2.5 py-1.5 text-sm transition ${
-                              activeChildSection === child.id
-                                ? isDarkMode
-                                  ? 'bg-orange-500/15 text-orange-300'
-                                  : 'bg-orange-50 text-orange-700'
-                                : isDarkMode
-                                  ? 'text-gray-400 hover:bg-zinc-900 hover:text-gray-100'
-                                  : 'text-gray-500 hover:bg-gray-100 hover:text-gray-800'
-                            }`}
-                          >
-                            {child.label}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : null}
-                </li>
-              ))}
-            </ul>
-            <h6 className={`mb-2 mt-2 text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>Installation</h6>
-            <ul className="space-y-1.5">
-                {stepsToInstall.map((item) => (
-                <li key={item.id} className="pb-1">
-                  {item.children?.length ? (
-                    <ul className={`ml-4 mt-1 space-y-1 border-l pl-2 ${isDarkMode ? 'border-zinc-700' : 'border-gray-200'}`}>
-                      {item.children.map((child) => (
-                        <li key={child.id}>
-                          <a
-                            href={`#${child.id}`}
-                            onClick={(event) => {
-                              event.preventDefault()
-                              scrollMainToSection(child.id)
-                              setActiveSection(item.id)
-                              setActiveChildSection(child.id)
-                            }}
-                            className={`block px-2.5 py-1.5 text-sm transition ${
-                              activeChildSection === child.id
-                                ? isDarkMode
-                                  ? 'bg-orange-500/15 text-orange-300'
-                                  : 'bg-orange-50 text-orange-700'
-                                : isDarkMode
-                                  ? 'text-gray-400 hover:bg-zinc-900 hover:text-gray-100'
-                                  : 'text-gray-500 hover:bg-gray-100 hover:text-gray-800'
-                            }`}
-                          >
-                            {child.label}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : null}
-                </li>
-              ))}
-            </ul>
+      <div className="grid min-h-[calc(100vh-89px)] grid-cols-[240px_minmax(0,1fr)_200px] 2xl:grid-cols-[320px_minmax(0,1fr)_220px]">
+        <aside>
+          <nav
+            className={`sidebar-scroll sticky top-[89px] max-h-[calc(100vh-89px)] overflow-y-auto border-0 border-r px-4 py-4 pt-8 xl:px-6 ${isDarkMode ? 'border-zinc-800' : 'border-gray-200'}`}
+          >
+            <DocSidebar
+              groups={docGroups}
+              isDarkMode={isDarkMode}
+              activeSectionId={activeSectionId}
+              activeChildId={activeChildId}
+            />
           </nav>
         </aside>
 
-        <main ref={mainScrollRef} className="sidebar-scroll h-[calc(100vh-89px)] overflow-y-auto pt-8 px-8">
-          <div className="max-w-6xl mx-auto">
-            <StandardAttributes isDarkMode={isDarkMode} />
-            <Installation isDarkMode={isDarkMode} />
+        <main className="min-w-0">
+          <div className="mx-auto w-full max-w-5xl px-6 py-8 lg:px-10">
+            <OnThisPageMobile
+              items={tocItems}
+              activeHeadingId={activeHeadingId}
+              isDarkMode={isDarkMode}
+              onNavigate={scrollMainToSection}
+            />
+
+            <div className="mt-6 xl:mt-0">
+              <Routes>
+                <Route path="/" element={<Navigate to={defaultPath} replace />} />
+                {routes.map((route) => (
+                  <Route
+                    key={route.path}
+                    path={route.path}
+                    element={
+                      <DocRoutePage
+                        flatNav={flatNav}
+                        isDarkMode={isDarkMode}
+                        contentRef={contentRef}
+                      />
+                    }
+                  />
+                ))}
+                <Route path="*" element={<Navigate to={defaultPath} replace />} />
+              </Routes>
+            </div>
           </div>
         </main>
+
+        <aside className="hidden xl:block">
+          <div className="sidebar-scroll sticky top-[89px] max-h-[calc(100vh-89px)] overflow-y-auto py-8 pl-4 pr-2 2xl:pl-6">
+            <OnThisPage
+              items={tocItems}
+              activeHeadingId={activeHeadingId}
+              isDarkMode={isDarkMode}
+              onNavigate={scrollMainToSection}
+            />
+          </div>
+        </aside>
       </div>
+
+      <SiteFooter isDarkMode={isDarkMode} />
     </div>
   )
 }

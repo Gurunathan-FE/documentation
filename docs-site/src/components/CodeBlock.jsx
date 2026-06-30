@@ -52,10 +52,10 @@ export default function CodeBlock({
 
   return (
     <div
-      className={`overflow-hidden border ${
+      className={`overflow-hidden border rounded-lg border-l-4 border-b-4 ${
         isDarkMode
-          ? 'border-zinc-700 bg-zinc-950'
-          : 'border-zinc-300 bg-white'
+          ? 'border-zinc-700 bg-zinc-900/70 border-l-orange-700/40 border-b-orange-700/40'
+          : 'border-zinc-300 bg-white border-l-orange-300 border-b-orange-300'
       }`}
     >
       <div className="flex items-center justify-between px-2 pt-2">
@@ -72,7 +72,7 @@ export default function CodeBlock({
         </button>
       </div>
       <pre
-        className={`m-2 overflow-x-auto p-4 text-sm leading-7 ${isDarkMode ? 'bg-zinc-800 text-zinc-100' : 'bg-zinc-100 text-zinc-900'}`}
+        className={`m-2 overflow-x-auto p-4 text-sm leading-7 rounded-lg ${isDarkMode ? 'bg-zinc-800/60 text-zinc-100' : 'bg-zinc-100 text-zinc-900'}`}
       >
         <code>{renderCodeWithHighlight()}</code>
       </pre>

@@ -36,7 +36,7 @@ export default function TrackEvents({ isDarkMode, styles }) {
       <p className={`my-4 text-base ${styles.mutedText}`}>
         For standard event names, see{' '}
         <a
-          href="/standard-attributes"
+          href="/documentation/standard-attributes"
           className={`${isDarkMode ? 'text-orange-300' : 'text-orange-600'} underline transition-colors hover:text-orange-700`}
         >
           Standard Events

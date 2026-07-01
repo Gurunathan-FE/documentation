@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import CodeBlock from '../../components/CodeBlock'
 import FrameworkTabs from '../components/FrameworkTabs'
 import InstallationStep from '../components/InstallationStep'
@@ -35,12 +36,12 @@ export default function TrackEvents({ isDarkMode, styles }) {
 
       <p className={`my-4 text-base ${styles.mutedText}`}>
         For standard event names, see{' '}
-        <a
-          href="/documentation/standard-attributes"
+        <Link
+          to="/standard-attributes"
           className={`${isDarkMode ? 'text-orange-300' : 'text-orange-600'} underline transition-colors hover:text-orange-700`}
         >
           Standard Events
-        </a>
+        </Link>
         . You can also use custom event names with corresponding payloads.
       </p>
       <CodeBlock

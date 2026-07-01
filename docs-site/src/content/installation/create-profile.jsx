@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import CodeBlock from '../../components/CodeBlock'
 import FrameworkTabs from '../components/FrameworkTabs'
 import InstallationStep from '../components/InstallationStep'
@@ -66,12 +67,12 @@ export default function CreateProfile({ isDarkMode, styles }) {
 
       <p className={`mt-6 text-base ${styles.mutedText}`}>
         For standard profile fields, see{' '}
-        <a
-          href="/standard-attributes/standard-profile-fields"
+        <Link
+          to="/standard-attributes/standard-profile-fields"
           className={`${isDarkMode ? 'text-orange-300' : 'text-orange-600'} underline transition-colors hover:text-orange-700`}
         >
           Standard Profile Fields
-        </a>
+        </Link>
         .
       </p>
     </InstallationStep>

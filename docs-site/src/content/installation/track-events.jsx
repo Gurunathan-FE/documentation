@@ -49,6 +49,24 @@ export default function TrackEvents({ isDarkMode, styles }) {
         highlightClassName="text-red-500"
         code={`window.aixel.track('<custom-event-name>', payload_object);`}
       />
+
+      <div className="mt-8 space-y-5">
+        <h4 className={`text-base font-semibold ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>
+          WhatsApp Chat Tracking
+        </h4>
+
+        <div className="space-y-2">
+          <p className={`text-base ${styles.mutedText}`}>Get the WhatsApp chat ID.</p>
+          <CodeBlock code={`const chatId = aixel.trackWhatsappChatId();`} />
+        </div>
+
+        <div className="space-y-2">
+          <p className={`text-base ${styles.mutedText}`}>
+            Track WhatsApp chat messages and redirect users to WhatsApp with pre-filled messages.
+          </p>
+          <CodeBlock code={`const message = aixel.trackWhatsappChatMessage("message", chatId, 1);`} />
+        </div>
+      </div>
     </InstallationStep>
   )
 }

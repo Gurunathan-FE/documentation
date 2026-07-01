@@ -54,7 +54,7 @@ export default function DocumentationSearch({
 
       {isOpen && searchQuery.trim() ? (
         <div
-          className={`absolute left-0 right-0 top-[calc(100%+8px)] z-50 border shadow-lg ${
+          className={`absolute left-0 right-0 top-[calc(100%+8px)] z-50 border shadow-lg rounded-md ${
             isDarkMode
               ? 'border-zinc-700 bg-zinc-950'
               : 'border-gray-200 bg-white'

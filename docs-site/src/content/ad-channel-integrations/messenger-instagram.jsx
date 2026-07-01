@@ -132,7 +132,7 @@ export default function MessengerInstagram({ isDarkMode }) {
       </div>
 
       <div className="space-y-3">
-        <h4 className={styles.subheading}>What Gets Tracked</h4>
+        <h4 className={styles.subheading}>What Gets Tracked?</h4>
         <ul className={`list-disc space-y-1 pl-6 ${styles.body}`}>
           <li>New conversations initiated by customers</li>
           <li>Message volume and response metrics</li>

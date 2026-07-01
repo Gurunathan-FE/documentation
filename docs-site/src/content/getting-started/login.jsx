@@ -53,15 +53,39 @@ export default function Login({ isDarkMode }) {
       <div className="space-y-4">
         <h4 className={styles.subheading}>Forgot Your Password?</h4>
         <p className={styles.body}>If you can&apos;t remember your password:</p>
-        <ol className={`list-decimal space-y-2 pl-6 ${styles.body}`}>
-          <li>
-            Click <span className="font-semibold">Forgot Password</span> on the login screen.
-          </li>
-          <li>Enter the email address associated with your Aixel account.</li>
-          <li>Check your inbox for a password reset link from Aixel.</li>
-          <li>Click the link and set a new password.</li>
-          <li>Return to the login page and sign in with your new credentials.</li>
-        </ol>
+        <DocSteps
+          isDarkMode={isDarkMode}
+          steps={[
+            {
+              title: 'Open Forgot Password',
+              content: (
+                <p>
+                  Click <span className="font-semibold">Forgot Password</span> on the login screen.
+                </p>
+              ),
+            },
+            {
+              title: 'Enter Your Email',
+              content: (
+                <p>Enter the email address associated with your Aixel account.</p>
+              ),
+            },
+            {
+              title: 'Check Your Inbox',
+              content: <p>Check your inbox for a password reset link from Aixel.</p>,
+            },
+            {
+              title: 'Set a New Password',
+              content: <p>Click the link and set a new password.</p>,
+            },
+            {
+              title: 'Sign In Again',
+              content: (
+                <p>Return to the login page and sign in with your new credentials.</p>
+              ),
+            },
+          ]}
+        />
       </div>
     </DocSubsection>
   )

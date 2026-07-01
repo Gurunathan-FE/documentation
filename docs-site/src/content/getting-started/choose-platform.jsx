@@ -1,5 +1,5 @@
+import DocSteps from '../components/DocSteps'
 import DocSubsection from '../components/DocSubsection'
-import DocTable from '../components/DocTable'
 import { useDocStyles } from '../components/useDocStyles'
 
 export const subsectionMeta = {
@@ -8,10 +8,29 @@ export const subsectionMeta = {
 }
 
 const shopifySteps = [
-  ['1', 'Connect Shopify', 'Click the "Connect Shopify" button to begin'],
-  ['2', 'Login to Shopify', "You'll be redirected to Shopify's login page. Sign in with your Shopify store credentials"],
-  ['3', 'Authorize Aixel', 'Grant Aixel permission to access your store data'],
-  ['4', 'Connection Successful', "You'll see a confirmation screen once the connection is established"],
+  {
+    title: 'Connect Shopify',
+    content: <p>Click the &quot;Connect Shopify&quot; button to begin.</p>,
+  },
+  {
+    title: 'Login to Shopify',
+    content: (
+      <p>
+        You&apos;ll be redirected to Shopify&apos;s login page. Sign in with your Shopify store
+        credentials.
+      </p>
+    ),
+  },
+  {
+    title: 'Authorize Aixel',
+    content: <p>Grant Aixel permission to access your store data.</p>,
+  },
+  {
+    title: 'Connection Successful',
+    content: (
+      <p>You&apos;ll see a confirmation screen once the connection is established.</p>
+    ),
+  },
 ]
 
 export default function ChoosePlatform({ isDarkMode }) {
@@ -40,17 +59,25 @@ export default function ChoosePlatform({ isDarkMode }) {
           <p className={styles.subheading}>
             After selecting Website, you&apos;ll complete these steps:
           </p>
-          <ol className={`list-decimal space-y-3 pl-6 ${styles.body}`}>
-            <li>
-              <span className="font-semibold">Add Company Details</span> — Enter your business
-              name and website URL.
-            </li>
-            <li>
-              <span className="font-semibold">Select Country &amp; Time Zone</span> — Choose the
-              country where your business operates and your preferred reporting time zone. This
-              ensures your analytics data aligns with your local business hours.
-            </li>
-          </ol>
+          <DocSteps
+            isDarkMode={isDarkMode}
+            steps={[
+              {
+                title: 'Add Company Details',
+                content: <p>Enter your business name and website URL.</p>,
+              },
+              {
+                title: 'Select Country & Time Zone',
+                content: (
+                  <p>
+                    Choose the country where your business operates and your preferred reporting
+                    time zone. This ensures your analytics data aligns with your local business
+                    hours.
+                  </p>
+                ),
+              },
+            ]}
+          />
           <p className={styles.body}>
             That&apos;s it. Your website platform is configured and ready for channel
             integrations.
@@ -63,14 +90,7 @@ export default function ChoosePlatform({ isDarkMode }) {
           <p className={styles.subheading}>
             After selecting Shopify, you&apos;ll complete these steps:
           </p>
-          <DocTable
-            isDarkMode={isDarkMode}
-            columns={['Step', 'Action', 'Details']}
-            rows={shopifySteps.map(([step, action, details]) => ({
-              key: step,
-              cells: [step, action, details],
-            }))}
-          />
+          <DocSteps isDarkMode={isDarkMode} steps={shopifySteps} />
         </div>
       </div>
     </DocSubsection>

@@ -28,7 +28,7 @@ export default function CreateAccount({ isDarkMode }) {
       </p>
 
       <div className="space-y-3">
-        <h4 className={styles.subheading}>What You&apos;ll Need</h4>
+        <h4 className={styles.subheading}>What You&apos;ll Need?</h4>
         <ul className={`list-disc space-y-1 pl-6 ${styles.body}`}>
           <li>A valid email address (this becomes your login)</li>
           <li>A password you haven&apos;t used elsewhere</li>
@@ -87,7 +87,7 @@ export default function CreateAccount({ isDarkMode }) {
       />
 
       <div className="space-y-2">
-        <h4 className={styles.subheading}>What Happens Next</h4>
+        <h4 className={styles.subheading}>What Happens Next?</h4>
         <p className={styles.body}>
           You&apos;ll be redirected to the email verification screen. Check your inbox for a code
           from Aixel — enter it on the next screen to activate your account.

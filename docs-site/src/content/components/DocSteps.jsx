@@ -72,7 +72,7 @@ function StepCard({ step, isDarkMode, styles }) {
 
       <div className="relative z-10">
         <div className="mb-2 flex items-start justify-between gap-3">
-          <h5 className={`text-base font-semibold leading-snug ${isDarkMode ? 'text-gray-100/50' : 'text-gray-900/50'}`}>
+          <h5 className={`text-base font-semibold leading-snug ${isDarkMode ? 'text-gray-100/70' : 'text-gray-900/50'}`}>
             {step.title}
           </h5>
           {step.badge ? <span className={badgeClass}>{step.badge}</span> : null}
